@@ -1,0 +1,20 @@
+{
+   "name": "ArcDPS.Uploader",
+   "version": "0.1.0",
+   "namespace": "ArcDPS.Uploader",
+   "package": "ArcDPS.Uploader.dll",
+   "manifest_version": 1,
+
+   "description": "Automated upload off created ArcDPS reports.",
+   "dependencies": {
+      "bh.blishhud": ">=1.0.0"
+   },
+   "url": "https://github.com/thoenissen/ArcDPS.Uploader",
+   "contributors": [
+      {
+         "name": "Seth",
+         "username": "SeTTeK.3518"
+      }
+   ],
+   "enabled_without_gw2": false
+}
