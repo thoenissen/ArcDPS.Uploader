@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+using System.IO;
 
 using ArcDPS.Uploader.Data;
 using ArcDPS.Uploader.Services;
@@ -26,6 +25,11 @@ public class ReportEntriesView : View
     /// Report manager
     /// </summary>
     private readonly ReportManager _manager;
+
+    /// <summary>
+    /// Images provider
+    /// </summary>
+    private readonly ImageDownloadService _images = new ();
 
     /// <summary>
     /// Flow panel
@@ -150,31 +154,25 @@ public class ReportEntriesView : View
                 Location = new Point(0, 0),
                 Height = 64,
                 Width = 64
-            }; 
+            };
 
-            Task.Run(() =>
-                     {
-                         try
-                         {
-                             using var ctx = GameService.Graphics.LendGraphicsDeviceContext();
+            if (string.IsNullOrEmpty(report.Details?.FightIcon) == false)
+            {
+                _images.GetImage(report.Details.FightIcon)
+                       .ContinueWith(data =>
+                                     {
+                                         using var ctx = GameService.Graphics.LendGraphicsDeviceContext();
 
-                             using var httpClient = new System.Net.Http.HttpClient();
+                                         using var memoryStream = new MemoryStream(data.Result);
 
-                             httpClient.DefaultRequestHeaders.Add("User-Agent", "ArcDPS.Uploader");
+                                         var texture = Texture2D.FromStream(ctx.GraphicsDevice, memoryStream);
 
-                             var texture = Texture2D.FromStream(ctx.GraphicsDevice, httpClient.GetStreamAsync(report.Details.FightIcon).Result);
-
-                             lock (_flowPanel)
-                             {
-                                 fightIconTexture.SwapTexture(texture);
-                             }
-                         }
-                         catch (Exception ex)
-                         {
-                             Logger.GetLogger<ReportEntriesView>()
-                                   .Warn(ex, "Download fight icon failed.");
-                         }
-                     });
+                                         lock (_flowPanel)
+                                         {
+                                             fightIconTexture.SwapTexture(texture);
+                                         }
+                                     });
+            }
         }
     }
 

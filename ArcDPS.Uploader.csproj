@@ -162,6 +162,7 @@
     <Compile Include="Events\ReportAvailableEventHandler.cs" />
     <Compile Include="Events\ReportCreatedEventArgs.cs" />
     <Compile Include="Events\ReportCreatedEventHandler.cs" />
+    <Compile Include="Services\ImageDownloadService.cs" />
     <Compile Include="Services\ReportDirectoryWatcher.cs" />
     <Compile Include="Services\ReportManager.cs" />
     <Compile Include="Events\ReportUploadedEventArgs.cs" />
