@@ -189,7 +189,7 @@ public class ReportEntriesView : View
                          FlowDirection = ControlFlowDirection.SingleTopToBottom,
                          ControlPadding = new Vector2(8, 8),
                          Location = Panel.MenuStandard.PanelOffset,
-                         Size = buildPanel.Size,
+                         Size = new Point(buildPanel.Size.X - 16, buildPanel.Size.Y - 16),
                          CanScroll = true,
                      };
 
